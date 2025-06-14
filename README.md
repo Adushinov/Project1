@@ -1,49 +1,9 @@
 <div id="header" align="center">
   <img src=https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHNoMDlwa25vdmZlOGwxZDV6OHpkZHE5a3JnczU0ejMzaGR5enoxeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/78XCFBGOlS6keY1Bil/giphy.gif width="200"/>
 </div>
-<div id="header" align="center">
-<div id="badges">
-  <a href=https://vk.com/vadushinov>
-    <img src="https://img.shields.io/badge/Vkontakte-blue?style=for-the-badge&logo=vkontakte&logoColor=white" alt="Vkontakte Badge"/>
-  </a>
-  <a href=https://www.instagram.com/adushinov_?igsh=cDBoM2lsY2pna2ln>
-    <img src="https://img.shields.io/badge/Instagram-red?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram Badge"/>
-  </a>  
-</div>
-<img src="https://komarev.com/ghpvc/?username=Adushinov-github-username&style=flat-square&color=blue" alt=""/>
-<img>
-<h1>
-Привет Друг 
-<img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30px"/>
-</h1>
-  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTN2N3F5NnY4NXMwbTJqaWk0OGQxcmw4d2d2cTRsZmYwdGNyNG54aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6arSJwtKZBtWCRzg6d/giphy.gif" width="600" height="300"/>
-</div>
-
-  ---
-  
-# :man_technologist: Обо мне :
-  
-  Я начинающий бекенд-разработчик <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30"> из России.
-  - :telescope: Я учусь в школе Skypro на курсе бекенд-разработчик.
-
-- :seedling: изучение основ програмирование на языке Python.
-
-- :zap: в свободное время увлекаюсь спортом.
-
-  ---
-
-### :hammer_and_wrench: Языки и инструменты :
-<div>
-<img src="https://github.com/devicons/devicon/blob/master/icons/poetry/poetry-original.svg"title="Poetry" alt="Poetry" width="40" height="40"/>&nbsp;
-<img src="https://github.com/devicons/devicon/blob/master/icons/pycharm/pycharm-original.svg" title="Pycharm" alt="Pycharm" width="40" height="40"/>&nbsp;
-<img src="https://github.com/devicons/devicon/blob/master/icons/python/python-original.svg" title="Python" alt="Python" width="40" height="40"/>&nbsp;
-<img src="https://github.com/devicons/devicon/blob/master/icons/windows11/windows11-original-wordmark.svg" title="Windows11" alt="Windows11" width="40" height="40"/>&nbsp;
-<img src="https://github.com/devicons/devicon/blob/master/icons/github/github-original-wordmark.svg" title="Github" alt="github" width="40" height="40"/>&nbsp;
-
----
 
 ## :computer: Коротко о моем проекте:
-этот проект связан с домашней работой курса от SkyPro, в нем реализуются функции необходимые для обучения.
+Данный проект связан с домашней работой курса от SkyPro, в нем IT-отдел крупного банка делает новую фичу для личного кабинета клиента. Это виджет, который показывает несколько последних успешных банковских операций клиента. 
 
 ---
 
@@ -55,7 +15,7 @@
 
 1. Клонируйте репозиторий:
 ```
-https://github.com/Adushinov/proeckts_Scypro.git
+git@github.com:Adushinov/Project1.git
 ```
 
 2. Установите зависимости:
@@ -82,3 +42,48 @@ width="50px"/>
 1. Перейдите на страницу в вашем веб-браузере.
 2. Создайте новую учетную запись или войдите существующей.
 3. Создайте новую запись в блоге или оставьте комментарий к существующей.
+
+---
+
+###
+<h1>
+Привет использования функций:
+</h1>
+
+1. Функция get_mask_card_number:
+```
+ 7000792289606361     # входной аргумент
+ 7000 79** **** 6361  # выход функции
+ ```
+                               
+2. Функция get_mask_account:
+```
+73654108430135874305  # входной аргумент
+**4305  # выход функции
+```
+3. Функция mask_account_card:
+```
+# Пример для карты
+Visa Platinum 7000792289606361  # входной аргумент
+Visa Platinum 7000 79** **** 6361  # выход функции
+# Пример для счета
+Счет 73654108430135874305  # входной аргумент
+Счет **4305  # выход функции
+```
+4. Функция get_date:
+```
+print(get_date("2025-06-14T12:00:00"))  # Вывод: 14.06.2025
+```
+5. Функция filter_by_state:
+```
+# Выход функции со статусом по умолчанию 'EXECUTED'
+[{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}]
+
+# Выход функции, если вторым аргументов передано 'CANCELED'
+[{'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'}, {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}]
+```
+6. Функция sort_by_date:
+```
+# Выход функции (сортировка по убыванию, т. е. сначала самые последние операции)
+[{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}, {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'}, {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}]
+```
