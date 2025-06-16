@@ -1,6 +1,5 @@
+from datetime import datetime
 from typing import Dict, List
-
-from widget import get_date
 
 
 def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
@@ -15,7 +14,15 @@ def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
 
 
 def sort_by_date(operations: list, ascending: bool = False) -> list:
-    """Функция принимает список словарей с операциями и сортирует их по значению ключа 'date'.
-    Поддерживает как сортировку по возрастанию, так и по убыванию."""
-    return sorted(operations, key=get_date, reverse=not ascending)
+    """Сортирует список операций по дате."""
 
+    def get_date(operation: dict) -> datetime:
+        try:
+            date_string: str = operation["date"]
+            # Преобразуем строку в объект datetime для корректной сортировки
+            return datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%S.%f")
+        except (KeyError, ValueError):
+            raise ValueError("Некорректный формат даты или отсутствие ключа 'date'")
+
+    # Сортируем список с использованием полученной функции get_date
+    return sorted(operations, key=get_date, reverse=not ascending)
