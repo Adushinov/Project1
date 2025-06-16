@@ -20,7 +20,7 @@ git@github.com:Adushinov/Project1.git
 
 2. Установите зависимости:
 ```
-pip install -r requirements.txt
+poetry install
 ```
 
 3. Создайте базу данных и выполните миграции:
@@ -32,6 +32,12 @@ python manage.py migrate
 ```
 python manage.py runserver
 ```
+
+5. Активировать окружение:
+```
+poetry show
+```
+
 ## 
 <h1>
 Использование:
