@@ -28,4 +28,3 @@ def sort_by_date(operations: list, ascending: bool = False) -> list:
     return sorted(operations, key=get_date, reverse=not ascending)
 
 
-гпавгрпа
