@@ -35,7 +35,7 @@ python manage.py runserver
 
 5. Активировать окружение:
 ```
-poetry show
+poetry shell
 ```
 
 ## 
