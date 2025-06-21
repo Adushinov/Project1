@@ -26,5 +26,3 @@ def sort_by_date(operations: list, ascending: bool = False) -> list:
 
     # Сортируем список с использованием полученной функции get_date
     return sorted(operations, key=get_date, reverse=not ascending)
-
-
