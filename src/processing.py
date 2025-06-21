@@ -1,6 +1,5 @@
+from typing import List, Dict
 from datetime import datetime
-from typing import Dict, List
-
 
 def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
     """Фильтрует список словарей по значению ключа 'state'"""
@@ -12,11 +11,10 @@ def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
 
     return filtered_data
 
-
-def sort_by_date(operations: list, ascending: bool = False) -> list:
+def sort_by_date(operations: List[Dict], ascending: bool = False) -> List[Dict]:
     """Сортирует список операций по дате."""
 
-    def get_date(operation: dict) -> datetime:
+    def get_date(operation: Dict) -> datetime:
         try:
             date_string: str = operation["date"]
             # Преобразуем строку в объект datetime для корректной сортировки
