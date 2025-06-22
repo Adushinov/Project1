@@ -53,7 +53,7 @@ width="50px"/>
 
 ###
 <h1>
-Привет использования функций:
+Пример использования функций:
 </h1>
 
 1. Функция get_mask_card_number:
@@ -92,4 +92,28 @@ print(get_date("2025-06-14T12:00:00"))  # Вывод: 14.06.2025
 ```
 # Выход функции (сортировка по убыванию, т. е. сначала самые последние операции)
 [{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}, {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'}, {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}]
+```
+---
+
+<h1>
+Тестирование:
+    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGNxanR2bnloeTF4NWxsbXIzNTI5YzkwNjhnMThyc3lyM3A3eWlqMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Y34jqOCXhgEsqRLULa/giphy.gif"
+width="50px"/>
+</h1>
+
+1. Установите pytest:
+```
+poetry add --group dev pytest
+```
+2. Запустить тесты с оценкой покрытия:
+```
+poetry run rytest --cov
+```
+3. Сгенерируйте отчет о тестирование: 
+```
+coverage html
+```
+4. Ознакомьтесь с подробным отчетом о тестировании:
+```
+htmlcov/index.html
 ```

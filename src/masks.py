@@ -25,7 +25,7 @@ def get_mask_account(account_number: str) -> str:
         return "Ошибка: номер карты должен состоять только из цифры"
 
     if len(account_number) < 4:
-        return "Ошибка: номер счета должен содержать минимум 4 цифры"
+        return "Ошибка: номер счёта должен содержать минимум 4 цифры"
 
     masked_number = "**{}".format(account_number[-4:])
 
