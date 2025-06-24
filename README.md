@@ -54,6 +54,8 @@ width="50px"/>
 ###
 <h1>
 Пример использования функций:
+  <img src='https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2syeGFlMWlzb3J2eTM0ZnR0dzcweGJianEyYmo3NG41eWg5ZHM0dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/u1WhXLjwgcXpHJBMRM/giphy.gif'
+width='70px'/>
 </h1>
 
 1. Функция get_mask_card_number:
@@ -97,8 +99,8 @@ print(get_date("2025-06-14T12:00:00"))  # Вывод: 14.06.2025
 
 <h1>
 Тестирование:
-    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGNxanR2bnloeTF4NWxsbXIzNTI5YzkwNjhnMThyc3lyM3A3eWlqMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Y34jqOCXhgEsqRLULa/giphy.gif"
-width="50px"/>
+    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTI4c3hqcThraHB5aWJqM2JhNTNheWk0cXh1NG0wamtyaWh1dGcyeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Ll22OhMLAlVDb8UQWe/giphy.gif"
+width="70px"/>
 </h1>
 
 1. Установите pytest:
