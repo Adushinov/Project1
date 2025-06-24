@@ -1,8 +1,22 @@
 import pytest
+
 from src.widget import mask_account_card
 
 
-# Фикстуры для тестовых данных
+@pytest.mark.parametrize(
+    "input_data, expected",
+    [
+        ("Иван Иванов 1234567890123456", "Иван Иванов 1234 56** **** 3456"),
+        ("Петр Петров 1234567890", "Петр Петров **7890"),
+        ("Анна Сидорова 123a567890123456", "Анна Сидорова Ошибка: номер карты должен содержать только цифры"),
+        ("Мария Иванова 123", "Мария Иванова Ошибка: номер счёта должен содержать минимум 4 цифры"),
+    ],
+)
+def test_mask_account_card(input_data, expected):
+    result = mask_account_card(input_data)
+    assert result == expected, f"Ожидалось: {expected}, получено: {result}"
+
+
 @pytest.fixture
 def valid_card_input():
     return "Иван Иванов 1234567890123456"
