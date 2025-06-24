@@ -1,5 +1,20 @@
 import pytest
-from src.masks import get_mask_card_number, get_mask_account
+
+from src.masks import get_mask_account, get_mask_card_number
+
+
+@pytest.mark.parametrize(
+    "card, expected",
+    [
+        ("1234567890123456", "1234 56** **** 3456"),
+        ("123a567890123456", "Ошибка: номер карты должен содержать только цифры"),
+        ("12345678", "Ошибка: номер карты должен содержать 16 цифр"),
+        ("12345678901234567", "Ошибка: номер карты должен содержать 16 цифр"),
+    ],
+)
+def test_card_masking(card, expected):
+    result = get_mask_card_number(card)
+    assert result == expected, f"Ожидалось: {expected}, получено: {result}"
 
 
 @pytest.fixture
@@ -49,7 +64,19 @@ def test_long_card(long_card):
 import pytest
 
 
-# Фикстуры для тестовых данных
+@pytest.mark.parametrize(
+    "account, expected",
+    [
+        ("1234567890123456", "**3456"),
+        ("123a456", "Ошибка: номер счёта должен состоять только из цифры"),
+        ("123", "Ошибка: номер счёта должен содержать минимум 4 цифры"),
+    ],
+)
+def test_account_masking(account, expected):
+    result = get_mask_account(account)
+    assert result == expected, f"Ожидалось: {expected}, получено: {result}"
+
+
 @pytest.fixture
 def valid_account():
     return "1234567890123456"
@@ -73,7 +100,7 @@ def test_valid_account(valid_account):
 
 def test_invalid_non_digit_account(invalid_non_digit_account):
     result = get_mask_account(invalid_non_digit_account)
-    expected = "Ошибка: номер карты должен состоять только из цифры"
+    expected = "Ошибка: номер счёта должен состоять только из цифры"
     assert result == expected, f"Ожидалось: {expected}, получено: {result}"
 
 

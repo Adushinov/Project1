@@ -22,7 +22,7 @@ def get_mask_card_number(card_number: str) -> str:
 def get_mask_account(account_number: str) -> str:
     """Функция, которая маскирует номер счета"""
     if not account_number.isdigit():
-        return "Ошибка: номер карты должен состоять только из цифры"
+        return "Ошибка: номер счёта должен состоять только из цифры"
 
     if len(account_number) < 4:
         return "Ошибка: номер счёта должен содержать минимум 4 цифры"
