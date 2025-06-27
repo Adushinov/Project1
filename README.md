@@ -95,6 +95,73 @@ print(get_date("2025-06-14T12:00:00"))  # Вывод: 14.06.2025
 # Выход функции (сортировка по убыванию, т. е. сначала самые последние операции)
 [{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}, {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'}, {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}]
 ```
+7. Функция filter_by_cerrency
+```
+if __name__ == "__main__":
+    # Пример списка транзакций
+    transactions = [
+        {
+            "id": 1,
+            "operationAmount": {
+                "currency": {
+                    "code": "USD"
+                },
+                "amount": 100.0
+            },
+            "description": "Покупка в магазине"
+        },
+        {
+            "id": 2,
+            "operationAmount": {
+                "currency": {
+                    "code": "EUR"
+                },
+                "amount": 80.0
+            },
+            "description": "Перевод средств"
+        },
+        {
+            "id": 3,
+            "operationAmount": {
+                "currency": {
+                    "code": "USD"
+                },
+                "amount": 150.0
+            },
+            "description": "Оплата услуги"
+        }
+    ]
+
+    # Фильтрация транзакций по валюте USD
+    filtered_transactions = filter_by_currency(transactions, "USD")
+
+    # Вывод отфильтрованных транзакций
+    for transaction in filtered_transactions:
+        print(transaction)
+```
+8. Генератор transaction_descriptions
+```
+descriptions = transaction_descriptions(transactions)
+for _ in range(5):
+    print(next(descriptions))
+
+>>> Перевод организации
+    Перевод со счета на счет
+    Перевод со счета на счет
+    Перевод с карты на карту
+    Перевод организации
+```
+9. Генератор card_number_generator
+```
+for card_number in card_number_generator(1, 5):
+    print(card_number)
+
+>>> 0000 0000 0000 0001
+    0000 0000 0000 0002
+    0000 0000 0000 0003
+    0000 0000 0000 0004
+    0000 0000 0000 0005
+```
 ---
 
 <h1>
