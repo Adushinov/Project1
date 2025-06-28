@@ -1,5 +1,10 @@
 <div id="header" align="center">
-  <img src=https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHNoMDlwa25vdmZlOGwxZDV6OHpkZHE5a3JnczU0ejMzaGR5enoxeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/78XCFBGOlS6keY1Bil/giphy.gif width="200"/>
+  <img src=https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHNoMDlwa25vdmZlOGwxZDV6OHpkZHE5a3JnczU0ejMzaGR5enoxeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/78XCFBGOlS6keY1Bil/giphy.gif width="400"/>
+</div>
+<div id="badges" align="center">
+  <a href="https://vk.com/vadushinov">
+    <img src="https://img.shields.io/badge/Vkontakte-blue?style=for-the-badge&logo=Vkontakte&logoColor=white" alt="Vkontakte Badge"/>
+  </a>
 </div>
 
 ## :computer: Коротко о моем проекте:
