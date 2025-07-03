@@ -1,5 +1,6 @@
-from typing import List, Dict
 from datetime import datetime
+from typing import Dict, List
+
 
 def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
     """Фильтрует список словарей по значению ключа 'state'"""
@@ -10,6 +11,7 @@ def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
             filtered_data.append(item)
 
     return filtered_data
+
 
 def sort_by_date(operations: List[Dict], ascending: bool = False) -> List[Dict]:
     """Сортирует список операций по дате."""
