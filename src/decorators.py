@@ -2,6 +2,9 @@ import functools
 
 
 def log(filename=None):
+    """Декоратор для автоматического логирования начала и конца выполнения функции,
+    а также её результатов или возникших ошибок."""
+
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
