@@ -167,6 +167,13 @@ for card_number in card_number_generator(1, 5):
     0000 0000 0000 0004
     0000 0000 0000 0005
 ```
+10. Декоратор Log.
+```
+@log(filename="mylog.txt")
+def my_function(x, y):
+    return x + y
+my_function(1, 2)
+```
 ---
 
 <h1>
