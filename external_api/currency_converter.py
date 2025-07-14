@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class CurrencyConverter:
-    API_URL = "https://api.exchangeratesapi.io/v1/latest"
+    BASE_URL = "https://api.exchangerate-api.com/v4/latest/{base_currency}"
     API_KEY = os.getenv("EXCHANGE_API_KEY")
     BASE_CURRENCY = "RUB"
 
