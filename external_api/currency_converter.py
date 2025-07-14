@@ -4,32 +4,37 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 class CurrencyConverter:
     API_URL = "https://api.exchangeratesapi.io/v1/latest"
-    ACCESS_KEY = os.getenv("EXCHANGE_RATES_API_KEY")
+    API_KEY = os.getenv("EXCHANGE_API_KEY")
+    BASE_CURRENCY = "RUB"
 
-    @staticmethod
-    def get_exchange_rate(currency: str) -> float:
-        params = {
-            'access_key': CurrencyConverter.ACCESS_KEY,
-            'symbols': currency,
-            'format': 1
-        }
+    def __init__(self):
+        self.session = requests.Session()
+        self.session.headers.update({
+            "apikey": self.API_KEY
+        })
 
-        response = requests.get(CurrencyConverter.API_URL, params=params)
-        response.raise_for_status()
+    def get_exchange_rate(self, currency: str) -> float:
+        try:
+            response = self.session.get(
+                self.API_URL,
+                params={
+                    "access_key": self.API_KEY,
+                    "symbols": currency,
+                    "format": 1
+                }
+            )
+            response.raise_for_status()
+            data = response.json()
+            return data["rates"][currency]
+        except requests.RequestException as e:
+            raise Exception(f"Ошибка при получении курса валют: {str(e)}")
+        except KeyError:
+            raise Exception("Неверный формат ответа от API")
 
-        data = response.json()
-        return data['rates'][currency]
-
-    @staticmethod
-    def convert_to_rub(amount: float, currency: str) -> float:
-        if currency == 'RUB':
+    def convert_to_rub(self, amount: float, currency: str) -> float:
+        if currency == "RUB":
             return amount
-
-        rate = CurrencyConverter.get_exchange_rate(currency)
+        rate = self.get_exchange_rate(currency)
         return amount * rate
-
-
-
