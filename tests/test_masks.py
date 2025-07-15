@@ -108,3 +108,6 @@ def test_short_account(short_account):
     result = get_mask_account(short_account)
     expected = "Ошибка: номер счёта должен содержать минимум 4 цифры"
     assert result == expected, f"Ожидалось: {expected}, получено: {result}"
+
+
+

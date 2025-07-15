@@ -1,6 +1,7 @@
 import os
 import requests
 
+
 def currency_converter(amount: float, currency_from: str, currency_to: str = "RUB") -> float:
     url = "https://api.apilayer.com/exchangerates_data/convert"
     headers = {"apikey": os.getenv("EXCHANGE_API_KEY")}
@@ -8,6 +9,7 @@ def currency_converter(amount: float, currency_from: str, currency_to: str = "RU
 
     response = requests.get(url, headers=headers, params=params).json()
     return float(response.get("result", 0))
+
 
 def process_transaction(transaction: dict) -> float:
     """
