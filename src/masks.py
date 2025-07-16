@@ -2,16 +2,16 @@ import logging
 import os
 
 # Создаем директорию для логов
-log_dir = 'logs'
+log_dir = "logs"
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
 # Создаем отдельный логгер для модуля masks
-masks_logger = logging.getLogger('masks')
+masks_logger = logging.getLogger("masks")
 masks_logger.setLevel(logging.DEBUG)  # Устанавливаем уровень не ниже DEBUG
 
 # Создаем обработчик для записи в файл
-file_handler = logging.FileHandler(os.path.join(log_dir, 'masks.log'))
+file_handler = logging.FileHandler(os.path.join(log_dir, "masks.log"))
 file_handler.setLevel(logging.DEBUG)
 
 # Создаем обработчик для вывода в консоль
@@ -19,10 +19,7 @@ console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.DEBUG)
 
 # Форматировщик для логов
-file_formatter = logging.Formatter(
-    '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
+file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 
 # Применяем форматировщик
 file_handler.setFormatter(file_formatter)
@@ -31,6 +28,7 @@ console_handler.setFormatter(file_formatter)
 # Добавляем обработчики к логгеру
 masks_logger.addHandler(file_handler)
 masks_logger.addHandler(console_handler)
+
 
 def get_mask_card_number(card_number: str) -> str:
     """Функция, принимает номер карты и маскирует его"""
@@ -91,7 +89,7 @@ if __name__ == "__main__":
         "123456789012345",  # неверная длина
         "12345678901234567",  # слишком длинная
         "1234a56789012345",  # буквенные символы
-        "1234 5678 9012 3456"  # пробелы
+        "1234 5678 9012 3456",  # пробелы
     ]
 
     for card in test_cards:

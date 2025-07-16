@@ -1,32 +1,26 @@
-import os
 import json
 import logging
+import os
 from datetime import datetime
 
 # Настройка директории для логов
-log_dir = 'logs'
+log_dir = "logs"
 try:
     os.makedirs(log_dir, exist_ok=True)
     print(f"Директория {log_dir} создана успешно")
 except Exception as e:
     print(f"Ошибка создания директории: {str(e)}")
-    log_dir = '.'  # Используем текущую директорию как запасной вариант
+    log_dir = "."  # Используем текущую директорию как запасной вариант
 
 # Настройка логгера для модуля utils
-logger = logging.getLogger('utils')
+logger = logging.getLogger("utils")
 logger.setLevel(logging.DEBUG)  # Устанавливаем минимальный уровень DEBUG
 
 # Создаем файловый обработчик
-file_handler = logging.FileHandler(
-    os.path.join(log_dir, 'utils.log'),
-    mode='w'
-)
+file_handler = logging.FileHandler(os.path.join(log_dir, "utils.log"), mode="w")
 
 # Настраиваем формат логов
-file_formatter = logging.Formatter(
-    "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
-)
+file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 
 # Применяем форматтер к обработчику
 file_handler.setFormatter(file_formatter)
