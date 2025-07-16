@@ -1,49 +1,76 @@
 import unittest
-from unittest.mock import patch, MagicMock
-from src.transaction_processor import process_transaction
+from unittest.mock import MagicMock, patch
+
+import requests
+
+from src.transaction_processor import currency_converter, process_transaction
 
 
-class TestTransactionProcessor(unittest.TestCase):
-    @patch('external_api.currency_converter.CurrencyConverter.get_exchange_rate')
-    def test_process_transaction_usd(self, mock_get_rate):
-        mock_get_rate.return_value = 75.0  # Примерный курс USD к RUB
+class TestCurrencyConverter(unittest.TestCase):
+    @patch("requests.get")
+    def test_currency_converter_success(self, mock_get):
+        # Создаем мок ответа
+        mock_response = MagicMock()
+        mock_response.json.return_value = {"result": 123.45}
+        mock_get.return_value = mock_response
 
-        transaction = {
-            'amount': 100.0,
-            'currency': 'USD'
-        }
+        # Вызываем функцию
+        result = currency_converter(100, "USD")
 
-        result = process_transaction(transaction)
-        self.assertEqual(result, 7500.0)
+        # Проверяем результат
+        self.assertEqual(result, 123.45)
+        mock_get.assert_called_once()
 
-    @patch('external_api.currency_converter.CurrencyConverter.get_exchange_rate')
-    def test_process_transaction_eur(self, mock_get_rate):
-        mock_get_rate.return_value = 85.0  # Примерный курс EUR к RUB
+    @patch("requests.get")
+    def test_currency_converter_error(self, mock_get):
+        # Симулируем ошибку API
+        mock_get.side_effect = requests.exceptions.RequestException("API error")
 
-        transaction = {
-            'amount': 50.0,
-            'currency': 'EUR'
-        }
+        with self.assertRaises(Exception):
+            currency_converter(100, "USD")
 
-        result = process_transaction(transaction)
-        self.assertEqual(result, 4250.0)
+    @patch("requests.get")
+    def test_currency_converter_no_result(self, mock_get):
+        # Симулируем ответ без результата
+        mock_response = MagicMock()
+        mock_response.json.return_value = {}
+        mock_get.return_value = mock_response
+
+        result = currency_converter(100, "USD")
+        self.assertEqual(result, 0.0)
+
+
+class TestProcessTransaction(unittest.TestCase):
 
     def test_process_transaction_rub(self):
-        transaction = {
-            'amount': 1000.0,
-            'currency': 'RUB'
-        }
+        transaction = {"operationAmount": {"amount": 100, "currency": {"code": "RUB"}}}
 
         result = process_transaction(transaction)
-        self.assertEqual(result, 1000.0)
+        self.assertEqual(result, 100.0)
 
-    def test_missing_fields(self):
+    @patch("src.transaction_processor.currency_converter")  # замените your_module на реальное имя вашего файла
+    def test_process_transaction_foreign(self, mock_converter):
+        # Мокаем результат конвертации
+        mock_converter.return_value = 123.45
+
+        transaction = {"operationAmount": {"amount": 100, "currency": {"code": "USD"}}}
+
+        result = process_transaction(transaction)
+        self.assertEqual(result, 123.45)
+        mock_converter.assert_called_once_with(100, "USD")
+
+    def test_process_transaction_missing_fields(self):
+        transaction = {"operationAmount": {"amount": 100}}
+
         with self.assertRaises(ValueError):
-            process_transaction({'amount': 100.0})
+            process_transaction(transaction)
+
+    def test_process_transaction_invalid_data(self):
+        transaction = {"operationAmount": {"currency": {"code": "USD"}}}
 
         with self.assertRaises(ValueError):
-            process_transaction({'currency': 'USD'})
+            process_transaction(transaction)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
