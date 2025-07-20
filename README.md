@@ -174,6 +174,28 @@ def my_function(x, y):
     return x + y
 my_function(1, 2)
 ```
+11. Функция считывания финансовых операций из CSV.
+```
+transactions = read_transactions(csv_path)
+print("Список транзакций:")
+    for transaction in transactions:
+        print(f"ID: {transaction['id']}")
+        print(f"Сумма: {transaction['amount']}")
+        print(f"Дата: {transaction['date']}")
+        print(f"Описание: {transaction['description']}")
+        print("-" * 40)
+```
+12.
+```
+transactions = read_excel_transactions(excel_path)
+print("Список транзакций:")
+    for transaction in transactions:
+        print(f"ID: {transaction['id']}")
+        print(f"Сумма: {transaction['amount']}")
+        print(f"Дата: {transaction['date']}")
+        print(f"Описание: {transaction['description']}")
+        print("-" * 40)
+```
 ---
 
 <h1>
