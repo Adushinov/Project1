@@ -1,4 +1,5 @@
 import re
+from collections import Counter
 from typing import Dict, List
 
 
@@ -20,23 +21,20 @@ def process_bank_search(data: List[Dict], search: str) -> List[Dict]:
 
 def process_bank_operations(data: List[Dict], categories: List[str]) -> Dict[str, int]:
     """
-    Функция для подсчета количества операций по заданным категориям.
+    Функция для подсчета количества операций по заданным категориям
+    с использованием Counter для оптимизации подсчета.
     """
 
-    result = {category: 0 for category in categories}
+    counter = Counter()
+
+    categories_set = set(category.lower() for category in categories)
 
     for operation in data:
+        description = operation.get("description", "").lower()
 
-        description = operation.get("description")
-        if description is not None:
-            description = description.lower()
-        else:
-            description = ""
-
-        for category in categories:
-
-            if category.lower() in description:
-                result[category] += 1
+        for category in categories_set:
+            if category in description:
+                counter[category.capitalize()] += 1
                 break
 
-    return result
+    return {category: counter.get(category.capitalize(), 0) for category in categories}

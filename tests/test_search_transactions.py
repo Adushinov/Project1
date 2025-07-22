@@ -2,87 +2,178 @@ from typing import Dict, List
 
 import pytest
 
-from src.search_transactions import (process_bank_operations,  # Замените your_module на реальное имя
+from src.search_transactions import (process_bank_operations,
                                      process_bank_search)
 
 
-# Фикстуры с тестовыми данными
 @pytest.fixture
-def simple_transactions() -> List[Dict]:
+def sample_data():
     return [
-        {"description": "Перевод с карты на карту"},
-        {"description": "Оплата услуг ЖКХ"},
-        {"description": "Пополнение счета"},
-        {"description": "Снятие наличных"},
-        {"description": None},
-        {"description": "Оплата картой в магазине"},
+        {"amount": 1000, "description": "Оплата в супермаркете Магнит"},
+        {"amount": 500, "description": "Перевод на карту другу"},
+        {'amount': 200, 'description': 'Оплата в супермаркете Пятерочка'},
+        {"amount": 300, "description": "Оплата коммунальных услуг ЖКХ"},
+        {"amount": 400, "description": "Перевод средств родственнику"},
+        {"amount": 600, "description": "Покупка в магазине"}
     ]
 
 
-@pytest.fixture
-def empty_transactions() -> List[Dict]:
-    return []
-
-
-@pytest.fixture
-def transactions_with_none() -> List[Dict]:
-    return [{"description": None}, {"description": "Оплата услуг"}, {"description": "Пополнение счета"}]
-
-
-def test_search_partial_match(simple_transactions):
-    result = process_bank_search(simple_transactions, "услуг")
-    expected = [{"description": "Оплата услуг ЖКХ"}]
+def test_basic_search(sample_data):
+    result = process_bank_search(sample_data, "супермаркете")
+    expected = [
+        {"amount": 1000, "description": "Оплата в супермаркете Магнит"},
+        {'amount': 200, 'description': 'Оплата в супермаркете Пятерочка'}
+    ]
     assert result == expected
 
 
-def test_search_case_insensitive(simple_transactions):
-    result = process_bank_search(simple_transactions, "КАРТОЙ")
-    expected = [{"description": "Оплата картой в магазине"}]
+def test_case_insensitive_search(sample_data):
+    result = process_bank_search(sample_data, "ПЕРЕВОД")
+    expected = [
+        {"amount": 500, "description": "Перевод на карту другу"},
+        {"amount": 400, "description": "Перевод средств родственнику"}
+    ]
     assert result == expected
 
 
-def test_search_none_values(transactions_with_none):
-    result = process_bank_search(transactions_with_none, "услуг")
-    expected = [{"description": "Оплата услуг"}]
-    assert result == result
+def test_partial_match_search(sample_data):
+    result = process_bank_search(sample_data, "оплата")
+    expected = [
+        {"amount": 1000, "description": "Оплата в супермаркете Магнит"},
+        {"amount": 200, "description": "Оплата в супермаркете Пятерочка"},
+        {"amount": 300, "description": "Оплата коммунальных услуг ЖКХ"}
+    ]
+    assert result == expected
 
+# Тест с точным совпадением слова
+def test_exact_word_search(sample_data):
+    result = process_bank_search(sample_data, "магазине")
+    expected = [
+        {"amount": 600, "description": "Покупка в магазине"}
+    ]
+    assert result == expected
 
-def test_search_empty_list(empty_transactions):
-    result = process_bank_search(empty_transactions, "любой_поиск")
+# Тест с отсутствующими результатами
+def test_no_results_search(sample_data):
+    result = process_bank_search(sample_data, "кафе")
     assert result == []
 
+# Тест с пустыми данными
+def test_empty_data_search():
+    result = process_bank_search([], "любой_поиск")
+    assert result == []
 
-# Тесты для process_bank_operations
-def test_count_categories(simple_transactions):
-    categories = ["перевод", "оплата", "пополнение"]
-    result = process_bank_operations(simple_transactions, categories)
-    expected = {"перевод": 1, "оплата": 2, "пополнение": 1}
+# Тест с None в описании
+def test_none_description_search(sample_data):
+    # Добавляем операцию с None в description
+    modified_data = sample_data + [{"amount": 100, "description": None}]
+    result = process_bank_search(modified_data, "перевод")
+    expected = [
+        {"amount": 500, "description": "Перевод на карту другу"},
+        {"amount": 400, "description": "Перевод средств родственнику"}
+    ]
+    assert result == expected
+
+# Тест с специальными символами в поиске
+def test_special_characters_search(sample_data):
+    result = process_bank_search(sample_data, "Магнит")
+    expected = [
+        {"amount": 1000, "description": "Оплата в супермаркете Магнит"}
+    ]
+    assert result == expected
+
+# Тест с пробелами в поиске
+def test_whitespace_search(sample_data):
+    result = process_bank_search(sample_data, " в ")
+    expected = [
+        {"amount": 1000, "description": "Оплата в супермаркете Магнит"},
+        {"amount": 200, "description": "Оплата в супермаркете Пятерочка"},
+        {"amount": 600, "description": "Покупка в магазине"}
+    ]
+    assert result == expected
+
+# Фикстура для тестовых данных
+@pytest.fixture
+def sample_data():
+    return [
+        {"amount": 1000, "description": "Оплата в супермаркете Магнит"},
+        {"amount": 500, "description": "Перевод на карту другу"},
+        {"amount": 200, "description": "Оплата в супермаркете Пятерочка"},
+        {"amount": 300, "description": "Оплата коммунальных услуг ЖКХ"},
+        {"amount": 400, "description": "Перевод средств родственнику"},
+        {"amount": 600, "description": "Покупка в магазине"}
+    ]
+
+# Фикстура для тестовых категорий
+@pytest.fixture
+def sample_categories():
+    return ["супермаркет", "перевод", "жкх", "магазин"]
+
+# Базовый тест
+def test_basic_functionality(sample_data, sample_categories):
+    result = process_bank_operations(sample_data, sample_categories)
+    expected = {
+        "супермаркет": 2,
+        "перевод": 2,
+        "жкх": 1,
+        "магазин": 1
+    }
+    assert result == expected
+
+# Тест с пустыми данными
+def test_empty_data(sample_categories):
+    result = process_bank_operations([], sample_categories)
+    expected = {
+        "супермаркет": 0,
+        "перевод": 0,
+        "жкх": 0,
+        "магазин": 0
+    }
+    assert result == expected
+
+# Тест с отсутствующими категориями
+def test_missing_categories(sample_data):
+    categories = ["кафе", "ресторан"]
+    result = process_bank_operations(sample_data, categories)
+    expected = {
+        "кафе": 0,
+        "ресторан": 0
+    }
+    assert result == expected
+
+# Тест с частичным совпадением
+def test_partial_match(sample_data):
+    categories = ["перевод", "оплата"]
+    result = process_bank_operations(sample_data, categories)
+    expected = {
+        "перевод": 2,
+        "оплата": 3  # Включает все операции с "оплатой"
+    }
+    assert result == expected
+
+# Тест с регистронезависимостью
+def test_case_insensitivity(sample_data, sample_categories):
+    # Изменяем регистр в описании операций
+    modified_data = [
+        {"amount": 1000, "description": "оплата в СУПЕРМАРКЕТЕ"},
+        {"amount": 500, "description": "ПЕРЕВОД на карту"},
+        {"amount": 300, "description": "ОПЛАТА ЖКХ"}
+    ]
+    result = process_bank_operations(modified_data, sample_categories)
+    expected = {
+        "супермаркет": 1,
+        "перевод": 1,
+        "жкх": 1,
+        "магазин": 0
+    }
     assert result == expected
 
 
-def test_count_case_insensitive(simple_transactions):
-    categories = ["ОПЛАТА", "ПЕРЕВОД"]
-    result = process_bank_operations(simple_transactions, categories)
-    expected = {"ОПЛАТА": 2, "ПЕРЕВОД": 1}
-    assert result == expected
-
-
-def test_count_no_matches(simple_transactions):
-    categories = ["магазин", "ресторан"]
-    result = process_bank_operations(simple_transactions, categories)
-    expected = {"магазин": 1, "ресторан": 0}  # Только один раз встречается "магазин"
-    assert result == expected
-
-
-def test_count_with_none(transactions_with_none):
-    categories = ["услуг", "счета"]
-    result = process_bank_operations(transactions_with_none, categories)
-    expected = {"услуг": 1, "счета": 1}
-    assert result == expected
-
-
-def test_count_empty_list(empty_transactions):
-    categories = ["любой", "категория"]
-    result = process_bank_operations(empty_transactions, categories)
-    expected = {"любой": 0, "категория": 0}
+def test_duplicate_categories(sample_data):
+    categories = ["супермаркет", "супермаркет", "перевод"]
+    result = process_bank_operations(sample_data, categories)
+    expected = {
+        "супермаркет": 2,
+        "перевод": 2
+    }
     assert result == expected
