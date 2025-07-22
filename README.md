@@ -185,7 +185,7 @@ print("Список транзакций:")
         print(f"Описание: {transaction['description']}")
         print("-" * 40)
 ```
-12.
+12. Функция считывания финансовых операций из Excel
 ```
 transactions = read_excel_transactions(excel_path)
 print("Список транзакций:")
@@ -195,6 +195,30 @@ print("Список транзакций:")
         print(f"Дата: {transaction['date']}")
         print(f"Описание: {transaction['description']}")
         print("-" * 40)
+```
+13. def process_bank_search.
+```
+transactions = [
+    {"description": "Перевод с карты на карту"},
+    {"description": "Оплата услуг ЖКХ"},
+    {"description": "Пополнение счета"},
+    {"description": "Снятие наличных"}
+]
+result = process_bank_search(transactions, "карта")
+result = process_bank_search(transactions, "КАРТА")
+result = process_bank_search(transactions, "услуг")
+```
+14. def process_bank_operations.
+```
+transactions = 
+ {"description": "Перевод с карты на карту"},
+ {"description": "Оплата услуг ЖКХ"},
+ {"description": "Пополнение счета"},
+ {"description": "Снятие наличных"}
+categories = ["перевод", "оплата", "пополнение"]
+result = process_bank_operations(transactions, categories)
+categories_upper = ["ОПЛАТА", "ПЕРЕВОД"]
+result_upper = process_bank_operations(transactions, categories_upper)
 ```
 ---
 
