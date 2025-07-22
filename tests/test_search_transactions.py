@@ -1,9 +1,9 @@
 from typing import Dict, List
-
+from collections import Counter
 import pytest
-
 from src.search_transactions import (process_bank_operations,
                                      process_bank_search)
+
 
 
 @pytest.fixture
@@ -74,7 +74,7 @@ def test_none_description_search(sample_data):
     ]
     assert result == expected
 
-# Тест с специальными символами в поиске
+
 def test_special_characters_search(sample_data):
     result = process_bank_search(sample_data, "Магнит")
     expected = [
@@ -82,7 +82,7 @@ def test_special_characters_search(sample_data):
     ]
     assert result == expected
 
-# Тест с пробелами в поиске
+
 def test_whitespace_search(sample_data):
     result = process_bank_search(sample_data, " в ")
     expected = [
@@ -92,7 +92,7 @@ def test_whitespace_search(sample_data):
     ]
     assert result == expected
 
-# Фикстура для тестовых данных
+
 @pytest.fixture
 def sample_data():
     return [
@@ -104,12 +104,12 @@ def sample_data():
         {"amount": 600, "description": "Покупка в магазине"}
     ]
 
-# Фикстура для тестовых категорий
+
 @pytest.fixture
 def sample_categories():
     return ["супермаркет", "перевод", "жкх", "магазин"]
 
-# Базовый тест
+
 def test_basic_functionality(sample_data, sample_categories):
     result = process_bank_operations(sample_data, sample_categories)
     expected = {
@@ -120,7 +120,7 @@ def test_basic_functionality(sample_data, sample_categories):
     }
     assert result == expected
 
-# Тест с пустыми данными
+
 def test_empty_data(sample_categories):
     result = process_bank_operations([], sample_categories)
     expected = {
@@ -131,7 +131,7 @@ def test_empty_data(sample_categories):
     }
     assert result == expected
 
-# Тест с отсутствующими категориями
+
 def test_missing_categories(sample_data):
     categories = ["кафе", "ресторан"]
     result = process_bank_operations(sample_data, categories)
@@ -141,19 +141,19 @@ def test_missing_categories(sample_data):
     }
     assert result == expected
 
-# Тест с частичным совпадением
+
 def test_partial_match(sample_data):
     categories = ["перевод", "оплата"]
     result = process_bank_operations(sample_data, categories)
     expected = {
         "перевод": 2,
-        "оплата": 3  # Включает все операции с "оплатой"
+        "оплата": 3
     }
     assert result == expected
 
-# Тест с регистронезависимостью
+
 def test_case_insensitivity(sample_data, sample_categories):
-    # Изменяем регистр в описании операций
+
     modified_data = [
         {"amount": 1000, "description": "оплата в СУПЕРМАРКЕТЕ"},
         {"amount": 500, "description": "ПЕРЕВОД на карту"},
