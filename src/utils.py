@@ -57,8 +57,3 @@ def load_transactions(file_path):
         return []
 
 
-# Тестовый вызов для проверки работы логирования
-if __name__ == "__main__":
-    logger.info("Программа запущена")
-    load_transactions("test_file.json")
-    logger.info("Программа завершила работу")
