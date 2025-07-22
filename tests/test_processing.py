@@ -69,7 +69,7 @@ def empty_data():
 # Тесты
 def test_filter_by_default_state(valid_data):
     result = filter_by_state(valid_data)
-    assert len(result) != 2
+    assert len(result) == 2
     assert all(item["state"] == "EXECUTED" for item in result)
 
 
@@ -84,81 +84,95 @@ def test_empty_data(empty_data):
     assert result == []
 
 
-@pytest.mark.parametrize(
-    "data, ascending, expected_dates",
-    [
-        (
-            [
-                {"id": 1, "date": "2023-01-01T12:00:00.000"},
-                {"id": 2, "date": "2023-01-03T12:00:00.000"},
-                {"id": 3, "date": "2023-01-02T12:00:00.000"},
-            ],
-            True,
-            ["2023-01-01T12:00:00.000", "2023-01-02T12:00:00.000", "2023-01-03T12:00:00.000"],
-        ),
-        (
-            [
-                {"id": 1, "date": "2023-01-01T12:00:00.000"},
-                {"id": 2, "date": "2023-01-03T12:00:00.000"},
-                {"id": 3, "date": "2023-01-02T12:00:00.000"},
-            ],
-            False,
-            ["2023-01-03T12:00:00.000", "2023-01-02T12:00:00.000", "2023-01-01T12:00:00.000"],
-        ),
-    ],
-)
-def test_sort_by_date(data, ascending, expected_dates):
-    result = sort_by_date(data, ascending=ascending)
-    assert [item["date"] for item in result] == expected_dates
 
-
+# Фикстура для тестовых данных
 @pytest.fixture
-def valid_data():
+def sample_operations():
     return [
-        {"id": 1, "date": "2023-01-01T12:00:00.000"},
-        {"id": 2, "date": "2023-01-03T12:00:00.000"},
-        {"id": 3, "date": "2023-01-02T12:00:00.000"},
+        {
+            "id": 1,
+            "date": "2023-01-01T00:00:00.000000",
+            "state": "EXECUTED"
+        },
+        {
+            "id": 2,
+            "date": "2023-03-15T12:34:56.789000",
+            "state": "EXECUTED"
+        },
+        {
+            "id": 3,
+            "date": "2023-02-01T00:00:00.000000",
+            "state": "EXECUTED"
+        }
     ]
 
 
-@pytest.fixture
-def data_with_incorrect_date():
-    return [{"id": 1, "date": "invalid-date"}, {"id": 2, "date": "2023-01-02T12:00:00.000"}]
+# Базовый тест на сортировку по возрастанию
+def test_sort_ascending(sample_operations):
+    sorted_ops = sort_by_date(sample_operations, ascending=True)
+    expected_dates = [
+        "2023-01-01T00:00:00.000000",
+        "2023-02-01T00:00:00.000000",
+        "2023-03-15T12:34:56.789000"
+    ]
+
+    assert [op["date"] for op in sorted_ops] == expected_dates
 
 
-@pytest.fixture
-def data_without_date_key():
-    return [{"id": 1}, {"id": 2, "date": "2023-01-02T12:00:00.000"}]
+# Тест на сортировку по убыванию
+def test_sort_descending(sample_operations):
+    sorted_ops = sort_by_date(sample_operations, ascending=False)
+    expected_dates = [
+        "2023-03-15T12:34:56.789000",
+        "2023-02-01T00:00:00.000000",
+        "2023-01-01T00:00:00.000000"
+    ]
+
+    assert [op["date"] for op in sorted_ops] == expected_dates
 
 
-@pytest.fixture
-def empty_data():
-    return []
-
-
-# Тесты
-def test_sort_by_ascending(valid_data):
-    result = sort_by_date(valid_data, ascending=True)
-    expected_dates = ["2023-01-01T12:00:00.000", "2023-01-02T12:00:00.000", "2023-01-03T12:00:00.000"]
-    assert [item["date"] for item in result] == expected_dates
-
-
-def test_sort_by_descending(valid_data):
-    result = sort_by_date(valid_data, ascending=False)
-    expected_dates = ["2023-01-03T12:00:00.000", "2023-01-02T12:00:00.000", "2023-01-01T12:00:00.000"]
-    assert [item["date"] for item in result] == expected_dates
-
-
-def test_incorrect_date_format(data_with_incorrect_date):
-    with pytest.raises(ValueError):
-        sort_by_date(data_with_incorrect_date)
-
-
-def test_missing_date_key(data_without_date_key):
-    with pytest.raises(ValueError):
-        sort_by_date(data_without_date_key)
-
-
-def test_empty_data(empty_data):
-    result = sort_by_date(empty_data)
+# Тест с пустыми данными
+def test_empty_list():
+    result = sort_by_date([])
     assert result == []
+
+
+# Тест с одной операцией
+def test_single_operation():
+    single_op = [
+        {
+            "id": 1,
+            "date": "2023-01-01T00:00:00.000000",
+            "state": "EXECUTED"
+        }
+    ]
+    result = sort_by_date(single_op)
+    assert result == single_op
+
+
+# Тест с отсутствующим ключом date
+def test_missing_date_key():
+    invalid_ops = [
+        {
+            "id": 1,
+            "state": "EXECUTED"
+        }
+    ]
+    with pytest.raises(ValueError):
+        sort_by_date(invalid_ops)
+
+
+# Тест с некорректным форматом даты
+def test_invalid_date_format():
+    invalid_ops = [
+        {
+            "id": 1,
+            "date": "2023-01-01",  # Неверный формат
+            "state": "EXECUTED"
+        }
+    ]
+    with pytest.raises(ValueError):
+        sort_by_date(invalid_ops)
+
+
+

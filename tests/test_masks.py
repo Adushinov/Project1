@@ -61,7 +61,7 @@ def test_long_card(long_card):
     assert result == expected, f"Ожидалось: {expected}, получено: {result}"
 
 
-import pytest
+
 
 
 @pytest.mark.parametrize(
